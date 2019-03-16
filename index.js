@@ -1,17 +1,8 @@
-const admin = require('firebase-admin');
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 
-/**
- * Firebase
- */
-
-admin.initializeApp({
-	credential: admin.credential.applicationDefault()
-});
-
-const db = admin.firestore();
+const root = path.join(__dirname, '/public');
 
 /**
  * Express
@@ -20,15 +11,15 @@ const db = admin.firestore();
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(root));
 
 app.get('/', (req, res) => {
-	res.sendFile('index.html');
+	res.sendFile('index.html', { root: root });
 });
 
 app.get('/admin', (req, res) => {
-	res.sendFile('admin.html');
-})
+	res.sendFile(path.join(__dirname, '/public', 'admin.html'));
+});
 
 const server = app.listen(port, () => {
 	const serverHost = 'localhost'; //server.address().address;
