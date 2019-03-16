@@ -26,13 +26,9 @@ app.get('/', (req, res) => {
 	res.sendFile('index.html');
 });
 
-app.use(bodyParser.json());
-
-/**
- * API
- */
-
-app.post('/api/', (req, res) => {});
+app.get('/admin', (req, res) => {
+	res.sendFile('admin.html');
+})
 
 const server = app.listen(port, () => {
 	const serverHost = 'localhost'; //server.address().address;
