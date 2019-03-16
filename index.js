@@ -35,7 +35,7 @@ app.use(bodyParser.json());
 app.post('/api/', (req, res) => {});
 
 const server = app.listen(port, () => {
-	const serverHost = server.address().address;
+	const serverHost = 'localhost'; //server.address().address;
 	const serverPort = server.address().port;
 
 	console.log(`Example app listening at http://${serverHost}:${serverPort}`);

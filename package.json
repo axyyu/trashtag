@@ -16,5 +16,9 @@
 	"bugs": {
 		"url": "https://github.com/w4v3s/trashtag/issues"
 	},
-	"homepage": "https://github.com/w4v3s/trashtag#readme"
+	"homepage": "https://github.com/w4v3s/trashtag#readme",
+	"dependencies": {
+		"express": "^4.16.4",
+		"firebase-admin": "^7.1.0"
+	}
 }
