@@ -1,3 +1,8 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	margin: 0;
+}
+
 header {
 	background-color: #777;
 	padding: 10px;
@@ -5,7 +10,6 @@ header {
 	word-spacing: 120px;
 	font-size: 100px;
 	color: white;
-	font-family: 'Pacifico', cursive;
 	padding: 20px;
 }
 
@@ -36,7 +40,7 @@ div.sidenav a {
 div.sidenav p {
 	font-size: 80px;
 	color: #818181;
-	padding: 1px;
+	margin: 0;
 }
 
 /* When you mouse over the navigation links, change their color */
