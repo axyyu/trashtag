@@ -8,6 +8,10 @@ mapboxgl.accessToken =
 //Secret Key sk.eyJ1IjoiY3JvdHRtIiwiYSI6ImNqdGJ3MWRxMDBxN3A0OWw2M3doZG02YmIifQ.R9F__o46cO5chcLmlllbFA
 //Public token: pk.eyJ1IjoiY3JvdHRtIiwiYSI6ImNqdGJ2eDFsdTBxNTY0NG9hajA5YjZkY3YifQ.yDXoV7EwWmqJuEydkMAkbQ
 
+// 4 sq
+var clientId = 'IQV4YVX01AZ0UDL0NIWJ044L2LZF3BND0BUUHXCOEY4MVFUM';
+var clientSec = 'G0JEHUKM4V1RGBXHQWM1ZVEDC4TJMD23UWM3ULM3AYIU2VQD';
+
 // Map
 var map;
 var markers = [];
@@ -100,7 +104,15 @@ function initMap() {
 		zoom: 16
 	});
 
+	geolocate = new mapboxgl.GeolocateControl({
+		positionOptions: {
+			enableHighAccuracy: true
+		},
+		trackUserLocation: true
+	});
+
 	map.addControl(new mapboxgl.NavigationControl());
+	map.addControl(geolocate);
 
 	map.on('contextmenu', onRightClickMap);
 }
@@ -140,17 +152,30 @@ function showMarkersType(filter, keys, dict, className) {
 }
 
 // Popup
-function addEvent() {
+async function addEvent() {
 	$('#popup').hide();
 	const date = $('#dateTimePicker').val();
 	const start = $('#startTime').val();
 	const end = $('#endTime').val();
 
+	var res = await fetch(
+		`https://api.foursquare.com/v2/venues/search?client_id=${clientId}&client_secret=${clientSec}&v=20190317&ll=${tempLngLat.lat},${tempLngLat.lng}&intent=checkin`
+	);
+	var data = await res.json();
+
+	var venue = data.response.venues[0];
+
+	console.log(venue);
+
 	eventsRef.push({
+		name: venue.name != null ? venue.name : '',
+		address: venue.location.address != null ? venue.location.address : '',
 		location: [ tempLngLat.lng, tempLngLat.lat ],
 		date: date,
 		start: start,
-		end: end
+		end: end,
+		interested: 0,
+		attended: 0
 	});
 }
 
@@ -180,6 +205,9 @@ function onRightClickMap({ point, lngLat }) {
 		defaultDate: new Date()
 	});
 
+	$('#startTime').val(moment().format('HH:mm'));
+	$('#endTime').val(moment().add(2, 'hours').format('HH:mm'));
+
 	tempLngLat = lngLat;
 	$('#location').val(`${lngLat.lng.toFixed(4)}, ${lngLat.lat.toFixed(4)}`);
 }
@@ -199,10 +227,36 @@ function showEventsType(filter, keys, status) {
 	}
 }
 function addEventToList(curEvent, status, key) {
+	var startdate = moment(`${curEvent.date} ${curEvent.start}`);
+	var enddate = moment(`${curEvent.date} ${curEvent.end}`);
+
+	var dateFormat = 'dddd, MMM D h:mm A';
+
+	var timeString = '';
+	var userString = '';
+	switch (status) {
+		case 'planned':
+			timeString = `Begins: ${startdate.format(dateFormat)}`;
+			userString = `${curEvent.interested} Interested`;
+			break;
+		case 'current':
+			timeString = `Ends: ${enddate.format(dateFormat)}`;
+			userString = `${curEvent.attended} Attending`;
+			break;
+		case 'ended':
+			timeString = `Ended: ${enddate.format(dateFormat)}`;
+			userString = `${curEvent.attended} Attended`;
+			break;
+		default:
+			break;
+	}
+
 	var html = `<div class='eventPanel' onclick='gotoEvent("${key}")'>
     <label class='${status}'>${status.toUpperCase()}</label>
-    <h1>${curEvent.date}</h1>
-    <h4>${curEvent.start} - ${curEvent.end}<h4>
+    <h1>${curEvent.name}</h1>
+    <h4>${curEvent.address}</h4>
+    <p>${timeString}<p>
+    <p>${userString}</p>
     </div>`;
 	$('#eventsList').append(html);
 }
@@ -219,7 +273,7 @@ function gotoEvent(key) {
 function getTags() {
 	tagsRef.on('value', function(data) {
 		tagDict = data.val();
-		tagKeys = Object.keys(tagDict);
+		tagKeys = tagDict == null ? [] : Object.keys(tagDict);
 		updateDisplay();
 	});
 }

@@ -4,11 +4,15 @@
   <title>TrashTag</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="shortcut icon" type="image/png" href="img/logo.png"/>
+
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/css/main.css">
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase.js"></script>
@@ -28,27 +32,30 @@
 
 </head>
 <body id = "body">
-
-    <header id="header">
-      TrashTag
-    </header>
-
-  <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <h1>Upcoming Events</h1>
-    <div id="eventsList">
-                
-    </div>
-  </div>
-
   <div id = "mapcontainer" class="maps">
     <div id = "crosshair">
     </div>
   </div>
 
+  <div id="sidecontainer">
+        <div id="sidepanel">
+            <div id="sideNavHeader">
+                    <h1>Events</h1>
+                    <i class="fas fa-times" onclick="closeNav()"></i>
+                </div>
+            <div id="currentList">
+                
+            </div>
+            <div id="plannedList">
+                
+                </div>
+        </div>
+    </div>
+
   <div id="progresscontainer">
         <div id="usericon">
-            <i class="fas fa-user"></i>
+            <!-- <i class="fas fa-user"></i> -->
+            <img src="img/logo.png" />
         </div>
         <div id="progressbar">
             <div id="progressback"></div>
@@ -56,7 +63,19 @@
         </div>
     </div>
 
-  <svg width="120" height="120" id="reportTrash">
+    <div id="checkInContainer" class="iconContainer">
+        <i class="fas fa-trash-restore"></i>
+    </div>
+
+    <div id="reportTrash" class="iconContainer" onclick="report()">
+        <i class="fas fa-exclamation"></i>
+    </div>
+
+    <div id="eventbutton" class="iconContainer" onclick="openNav()">
+        <i class="fas fa-search-location"></i>    
+    </div>
+
+  <!-- <svg width="120" height="120" id="reportTrash">
       <a onclick="report()">
         <circle cx="60" cy="60" r="40" fill="#007BFF" id="reportCircle"/>
         <text x="60" y="65" fill="#FFFFFF" text-anchor="middle" alignment-baseline="middle" id="reportText" cursor= "pointer">🗑️</text>
@@ -69,7 +88,7 @@
         <circle cx="60" cy="60" r="40" fill="#007BFF" id="eventCircle"/>
         <text x="60" y="65" fill="#FFFFFF" text-anchor="middle" alignment-baseline="middle" id="eventText" cursor= "pointer">E</text>
       </a>
-  </svg>
+  </svg> -->
 
 </body>
 </html>
