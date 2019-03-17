@@ -1,8 +1,60 @@
 body {
 	display: grid;
-	grid-template-columns: auto 500px;
+	grid-template-columns: auto 300px;
 	margin: 0;
 	font-family: 'Roboto', sans-serif;
+}
+
+@keyframes progressanimation {
+	0% {
+		background: #75d5fd;
+		box-shadow: 0 0 20px #75d5fd;
+	}
+
+	25% {
+		background: #02b8a2;
+		box-shadow: 0 0 20px #02b8a2;
+	}
+	50% {
+		background: #ffd300;
+		box-shadow: 0 0 20px #ffd300;
+	}
+	75% {
+		background: #ff2281;
+		box-shadow: 0 0 20px #ff2281;
+	}
+	100% {
+		background: #75d5fd;
+		box-shadow: 0 0 20px #75d5fd;
+	}
+}
+
+.marker-tag {
+	width: 16px;
+	height: 16px;
+	background: #ff2281;
+	box-shadow: 0 0 20px 0px #ff2281;
+}
+
+.marker-past {
+	height: 32px;
+	width: 32px;
+	background: #ffd300;
+	box-shadow: 0 0 20px 0px #ffd300;
+}
+
+.marker-current {
+	width: 32px;
+	height: 32px;
+	background: #02b8a2;
+	box-shadow: 0 0 20px 0px #02b8a2;
+}
+
+.marker-future {
+	width: 32px;
+	height: 32px;
+	background: #75d5fd;
+	box-shadow: 0 0 20px 0px #75d5fd;
 }
 
 h1,
@@ -20,13 +72,53 @@ p {
 }
 
 #sidecontainer {
-	width: 500px;
+	width: 100%;
+	height: 100%;
+	max-height: 100%;
 	background: #3a3938;
 }
 
 #sidepanel {
-	padding: 64px;
+	padding: 64px 32px;
 	color: #a5a5a5;
+	max-height: calc(100vh - 128px);
+	height: calc(100vh - 128px);
+	overflow-y: scroll;
+}
+
+.ended {
+	background: #ffd300;
+	box-shadow: 0 0 10px 0px #ffd300;
+}
+
+.planned {
+	background: #75d5fd;
+	box-shadow: 0 0 20px 0px #75d5fd;
+}
+
+.current {
+	background: #02b8a2;
+	box-shadow: 0 0 20px 0px #02b8a2;
+}
+
+.eventPanel {
+	padding: 16px;
+	background: #2d2d2d;
+	box-shadow: 0 0 20px #2d2d2d;
+	margin: 24px -16px;
+	color: #e9f0ec;
+	cursor: pointer;
+}
+
+.eventPanel h1 {
+	margin: 16px 0;
+}
+
+.eventPanel label {
+	font-weight: bold;
+	font-size: 0.9em;
+	color: #323231;
+	padding: 2px 4px;
 }
 
 button {
@@ -40,12 +132,72 @@ button {
 	color: #e9f0ec;
 }
 
+#filtercontainer {
+	position: absolute;
+	top: 32px;
+	left: 32px;
+	background: #2d2d2d;
+	box-shadow: 0 0 20px #2d2d2d;
+	padding: 16px;
+	color: #a5a5a5;
+}
+
+#filterlist {
+	display: grid;
+	grid-template-columns: auto 24px;
+	grid-gap: 8px;
+	flex-direction: column;
+	width: 100px;
+	margin-top: 16px;
+}
+
+.filter {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	transition: filter ease 0.1s;
+}
+
+.off {
+	filter: brightness(40%);
+}
+
+.filter:hover {
+	filter: brightness(70%);
+	cursor: pointer;
+}
+
+#filterlist span {
+	margin: auto 0;
+}
+
+.filter-tag {
+	background: #ff2281;
+	box-shadow: 0 0 20px 0px #ff2281;
+}
+
+.filter-past {
+	background: #ffd300;
+	box-shadow: 0 0 20px 0px #ffd300;
+}
+
+.filter-current {
+	background: #02b8a2;
+	box-shadow: 0 0 20px 0px #02b8a2;
+}
+
+.filter-future {
+	background: #75d5fd;
+	box-shadow: 0 0 20px 0px #75d5fd;
+}
+
 #popup {
 	display: none;
 	background: #efefef;
 	padding: 16px;
 	border-radius: 4px;
 	color: #323231;
+	box-shadow: 0 0 10px 0px #efefef;
 }
 
 #location {
@@ -105,19 +257,10 @@ A5A5A5 bright
 */
 
 .marker {
-	background-image: url("../img/can.png");
-	background-size: cover;
-	width: 50px;
-	height: 50px;
 	border-radius: 50%;
-	cursor: pointer;
+	transition: filter ease 0.2s;
 }
-
-.eventMarker {
-	background-image: url("../img/can.png");
-	background-size: cover;
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
+.marker:hover {
+	filter: brightness(70%);
 	cursor: pointer;
 }

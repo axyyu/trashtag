@@ -5,31 +5,195 @@ body {
 	width: 100vw;
 }
 
+.ended {
+	background: #ffd300;
+	box-shadow: 0 0 10px 0px #ffd300;
+}
+
+.planned {
+	background: #75d5fd;
+	box-shadow: 0 0 20px 0px #75d5fd;
+}
+
+.current {
+	background: #02b8a2;
+	box-shadow: 0 0 20px 0px #02b8a2;
+}
+
+.eventPanel {
+	padding: 16px;
+	background: #2d2d2d;
+	box-shadow: 0 0 20px #2d2d2d;
+	margin: 24px -16px;
+	color: #e9f0ec;
+	cursor: pointer;
+}
+
+.eventPanel h1 {
+	margin: 16px 0;
+}
+
+.eventPanel label {
+	font-weight: bold;
+	font-size: 0.9em;
+	color: #323231;
+	padding: 2px 4px;
+}
+
+.marker-current {
+	width: 32px;
+	height: 32px;
+	background: #02b8a2;
+	box-shadow: 0 0 20px 0px #02b8a2;
+}
+
+.marker-future {
+	width: 16px;
+	height: 16px;
+	background: #75d5fd;
+	box-shadow: 0 0 20px 0px #75d5fd;
+}
+
+.marker {
+	border-radius: 50%;
+	transition: filter ease 0.2s;
+}
+
+#progresscontainer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: absolute;
+	top: 32px;
+	left: 32px;
+	width: calc(100vw - 96px);
+	z-index: 10;
+}
+
+#usericon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	border-radius: 50%;
+	height: 44px;
+	width: 44px;
+	/* background: #02b8a2; */
+	background-image: linear-gradient(
+		to bottom right,
+		#75d5fd,
+		#02b8a2,
+		#ffd300,
+		#ff2281
+	);
+	box-shadow: 0 0 20px #02b8a2;
+	z-index: 100;
+	font-size: 1em;
+	/* animation-name: progressanimation;
+	animation-duration: 5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear; */
+}
+@keyframes progressanimation {
+	0% {
+		background: #75d5fd;
+		box-shadow: 0 0 20px #75d5fd;
+	}
+	25% {
+		background: #02b8a2;
+		box-shadow: 0 0 20px #02b8a2;
+	}
+	50% {
+		background: #ffd300;
+		box-shadow: 0 0 20px #ffd300;
+	}
+	75% {
+		background: #ff2281;
+		box-shadow: 0 0 20px #ff2281;
+	}
+	100% {
+		background: #75d5fd;
+		box-shadow: 0 0 20px #75d5fd;
+	}
+}
+#progressbar {
+	position: relative;
+	height: 4px;
+	width: calc(100% - 76px);
+	background: #2d2d2d;
+	box-shadow: 0 0 20px #2d2d2d;
+	border: 2px solid #2d2d2d;
+	border-radius: 4px;
+	padding: 2px 4px;
+}
+#progressback {
+	width: 100%;
+	height: 100%;
+	animation-name: progressanimation;
+	animation-duration: 8s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+#progressfront {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 25%;
+	height: 100%;
+	background: #2d2d2d66;
+}
 header {
+	display: none;
 	background-color: #777;
-	text-align: left;
-	word-spacing: 30px;
+	text-align: center;
 	font-size: 40px;
 	color: white;
 	padding: 20px;
 	z-index: 100;
 	height: 40px;
 }
-
+.specificEvents .separator {
+	text-align: center;
+}
+.specificEvents .events {
+	text-align: center;
+	font-weight: bold;
+	padding-top: 10px;
+	font-size: 20px;
+	text-shadow: 1px 1px #534f4f;
+}
+.specificEvents .event1 {
+	padding: 10px;
+	margin: 10px;
+	color: black;
+}
+.specificEvents .event2 {
+	padding: 10px;
+	margin: 10px;
+	color: black;
+}
+.specificEvents .event3 {
+	padding: 10px;
+	margin: 10px;
+	color: black;
+}
 /* The side navigation menu */
 div.sidenav {
-	height: 100%; /* 100% Full-height */
+	height: 100%;
+	/* 100% Full-height */
 	width: 0; /* 0 width - change this with JavaScript */
 	position: fixed; /* Stay in place */
-	z-index: 1; /* Stay on top */
-	top: 0; /* Stay at the top */
+	z-index: 12; /* Stay on top */
+	top: 0;
+	/* Stay at the top */
 	left: 0;
-	background-color: #111; /* Black*/
-	overflow-x: hidden; /* Disable horizontal scroll */
+	background-color: #111;
+	/* Black */
+	overflow-x: hidden;
+	/* Disable horizontal scroll */
 	padding-top: 60px; /* Place content 60px from the top */
 	transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
-
 /* The navigation menu links */
 div.sidenav a {
 	position: static;
@@ -42,19 +206,24 @@ div.sidenav a {
 	transition: 0.1s;
 	margin: 0;
 }
-
 div.sidenav p {
 	position: static;
 	font-size: 30px;
 	color: #818181;
 	margin: 0;
+	white-space: nowrap;
 }
-
+div.sidenav h1 {
+	width: 180px;
+	padding: 8px 8px 8px 32px;
+	color: #818181;
+	white-space: nowrap;
+	margin: 0;
+}
 /* When you mouse over the navigation links, change their color */
 div.sidenav a:hover {
 	color: #f1f1f1;
 }
-
 /* Position and style the close button (top right corner) */
 div.sidenav .closebtn {
 	position: absolute;
@@ -64,13 +233,11 @@ div.sidenav .closebtn {
 	font-size: 30px;
 	margin-left: 50px;
 }
-
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
 	transition: margin-left .5s;
 	padding: 20px;
 }
-
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
 	.sidenav {
@@ -80,8 +247,35 @@ div.sidenav .closebtn {
 		font-size: 18px;
 	}
 }
-
 #mapcontainer {
 	width: 100vw;
-	height: calc(100vh - 50px);
+	height: 100vh;
+}
+#reportTrash {
+	position: absolute;
+	font-size: 40px;
+	border-radius: 60%;
+	z-index: 10;
+	bottom: 1%;
+	right: 1%;
+}
+#eventbutton {
+	position: absolute;
+	font-size: 40px;
+	border-radius: 60%;
+	z-index: 10;
+	bottom: 1%;
+	left: 1%;
+	z-index: 11;
+}
+#crosshair {
+	border-radius: 50%;
+	width: 5em;
+	height: 5em;
+	border: 1px solid red;
+	position: absolute;
+	z-index: 11;
+	left: 45%;
+	top: 45%;
+	display: none;
 }

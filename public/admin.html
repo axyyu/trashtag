@@ -43,6 +43,20 @@
             </div>
         </div>
     </div>
+    <div id="filtercontainer">
+        <h3>Filters</h3>
+        <div id="filterlist">
+                <span>Tags</span>
+                <div class="filter filter-tag" onclick="toggleFilter('tag')"></div>
+                <span>Ended</span>
+                <div class="filter filter-past off" onclick="toggleFilter('past')"></div>
+                <span>Current</span>
+                <div class="filter filter-current" onclick="toggleFilter('current')"></div>
+                <span>Planned</span>
+                <div class="filter filter-future" onclick="toggleFilter('future')"></div>
+                                
+        </div>
+    </div>
     <div id="popup">
         <label for="location">Location</label>
         <input id="location" name="location" type="text" readonly="true" ></li>
