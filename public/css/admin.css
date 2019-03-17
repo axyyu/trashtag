@@ -96,14 +96,24 @@ button {
 
 /*
 3a3938 background
-383A38 green
+383A38 map green
 494949 street
 
 323231 dark
 A5A5A5 bright
+1A936F bright green
 */
 
 .marker {
+	background-image: url("../img/can.png");
+	background-size: cover;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.eventMarker {
 	background-image: url("../img/can.png");
 	background-size: cover;
 	width: 50px;
