@@ -48,7 +48,7 @@ $(document).ready(() => {
 });
 
 function updateDisplay() {
-	showProgressBar();
+	//showProgressBar();
 	showMarkers();
 	showEvents();
 }
@@ -70,7 +70,8 @@ function closeNav() {
 
 // Progress Bar
 function showProgressBar() {
-	$('#progressfront').css('width', `calc(100% - ${userExp}%)`);
+	let percent = userExp / levels[userLevel] * 100;
+	$('#progressfront').css('width', `calc(100% - ${percent}%)`);
 }
 
 // Map
@@ -343,4 +344,5 @@ function report() {
 		title: 'Trash Tagged',
 		text: `+${tagExp} XP`
 	});
+	showProgressBar();
 }

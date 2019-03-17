@@ -237,7 +237,7 @@ function addEventToList(curEvent, status, key) {
 	switch (status) {
 		case 'planned':
 			timeString = `Begins: ${startdate.format(dateFormat)}`;
-			userString = `${curEvent.interested.length} Interested`;
+			userString = `${curEvent.interested.length -1} Interested`;
 			break;
 		case 'current':
 			timeString = `Ends: ${enddate.format(dateFormat)}`;
