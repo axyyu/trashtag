@@ -174,7 +174,7 @@ async function addEvent() {
 		date: date,
 		start: start,
 		end: end,
-		interested: 0,
+		interested: [0],
 		attended: 0
 	});
 }
@@ -237,7 +237,7 @@ function addEventToList(curEvent, status, key) {
 	switch (status) {
 		case 'planned':
 			timeString = `Begins: ${startdate.format(dateFormat)}`;
-			userString = `${curEvent.interested} Interested`;
+			userString = `${curEvent.interested.length} Interested`;
 			break;
 		case 'current':
 			timeString = `Ends: ${enddate.format(dateFormat)}`;

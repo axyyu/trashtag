@@ -16,6 +16,13 @@ var tagsRef = database.ref('user/tags');
 var likesRef = database.ref('user/likes');
 var attendedRef = database.ref('user/attended');
 
+var d = new Date().getTime();
+var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	var r = (d + Math.random()*16)%16 | 0;
+	d = Math.floor(d/16);
+	return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+});
+
 var tagDict = {};
 var tagKeys = [];
 
@@ -29,6 +36,8 @@ var attendedKeys = [];
 var tagExp = 10;
 var eventExp = 20;
 var userExp = 0;
+var userLevel = 0;
+var levels = [100, 200, 400, 800, 1600, 3200];
 
 $(document).ready(() => {
 	initMap();
@@ -114,21 +123,28 @@ async function getEstimatedTime(key) {
 function getLikes() {
 	likesRef.on('value', function(data) {
 		likedKeys = data.val() == null ? [] : Object.keys(data.val());
-
+		
 		updateDisplay();
 	});
 }
 async function likeEvent(key) {
 	let itemRef = likesRef.child(key);
 	let eRef = eventsRef.child(key).child('interested');
-	if (!likedKeys.includes(key)) {
+	console.log(eRef, eventsDict[key].interested);
+	if (!eventsDict[key].interested.includes(uuid)){//!likedKeys.includes(key)) {
 		itemRef.set(true);
 		await sleep(100);
-		eRef.set(eventsDict[key].interested + 1);
+		eventsDict[key].interested.push(uuid);
+		eRef.set(eventsDict[key].interested); //+1
 	} else {
 		itemRef.remove();
 		await sleep(100);
-		eRef.set(eventsDict[key].interested - 1);
+		eventsDict[key].interested.pop();
+		for(let i = 0; i < eventsDict[key].interested.length; i++){
+			if(eventsDict[key].interested[i] == uuid)
+				eventsDict[key].interested.splice(i,1);
+		}
+		eRef.set(eventsDict[key].interested); //-1
 	}
 }
 
@@ -183,15 +199,15 @@ async function addEventToList(curEvent, status, key) {
 
 	var dateFormat = 'dddd, MMM D h:mm A';
 	var estimatedTime = await getEstimatedTime(key);
-	var inLiked = likedKeys.includes(key);
-
+	var inLiked = eventsDict[key].interested.includes(uuid);//likedKeys.includes(key);
+	//console.log("TEST", eventsDict[key].interested, key);
 	var timeString = '';
 	var userString = '';
 	var buttonSection = '';
 	switch (status) {
 		case 'planned':
 			timeString = `Begins: ${startdate.format(dateFormat)}`;
-			userString = `${curEvent.interested} Interested`;
+			userString = `${curEvent.interested.length - 1} Interested`;
 			buttonSection = `
             <div class='eventOptions'>
             <i class="${inLiked
@@ -215,7 +231,7 @@ async function addEventToList(curEvent, status, key) {
     <div class='panelRow'>
         <div>
             <p>${userString}</p>
-            <p>${estimatedTime.toFixed(1)} Minutes</p>
+            <p>${estimatedTime.toFixed(1)} Minutes &#x1F697</p>
         </div>
         ${buttonSection}
     </div>
@@ -314,6 +330,11 @@ function addMarker(valDict, key, className) {
 // User Actions
 function report() {
 	userExp += tagExp;
+	if(userExp >= levels[userLevel]){
+		userExp -= levels[userLevel];
+		userLevel++;
+	}
+	console.log(userLevel);
 	tagsRef.push({
 		location: currentLocation
 	});
